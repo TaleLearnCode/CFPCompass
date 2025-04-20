@@ -24,9 +24,9 @@ await AnsiConsole.Status()
 		ctx.SpinnerStyle(Style.Parse("green bold"));
 		IConfigurationRoot config = GetConfiguration();
 		ctx.Status("Generating CFP Listing");
-		GenerateCFPListing(config);
+		string cfpListingMarkdown = GenerateCFPListing(config);
 		ctx.Status("Uploading CFP Listing");
-		uploadResponse = await UploadCFPListingAsync(config);
+		uploadResponse = await UploadCFPListingAsync(config, cfpListingMarkdown);
 	});
 
 AnsiConsole.WriteLine();
@@ -50,14 +50,13 @@ IConfigurationRoot GetConfiguration()
 	return config;
 }
 
-void GenerateCFPListing(IConfigurationRoot config)
+string GenerateCFPListing(IConfigurationRoot config)
 {
 
 	string? connectionString = config["SQL:ConnectionString"];
 	if (string.IsNullOrEmpty(connectionString))
 	{
-		Console.WriteLine("SQL Connection string is not found in Azure App Configuration.");
-		return;
+		throw new Exception("SQL Connection string is not found in Azure App Configuration.");
 	}
 
 	using CFPCompassContext context = CFPCompassContext.CreateDbContext(connectionString);
@@ -77,12 +76,14 @@ void GenerateCFPListing(IConfigurationRoot config)
 		sb.AppendLine($"| [{cfp.Shindig.ShindigName}]({cfp.Shindig.ShindigUrl}) | {(cfp.Shindig.CountryCodeNavigation.CountryName == "United States of America" ? "United States" : cfp.Shindig.CountryCodeNavigation.CountryName)} | {(cfp.Shindig.CountryCodeNavigation.CountryName == "United States of America" ? $"{cfp.Shindig.City}, {cfp.Shindig.CountryDivisionCode}" : cfp.Shindig.City)} | {cfp.Shindig.StartDate:yyyy-MM-dd} | {cfp.Shindig.EndDate:yyyy-MM-dd} | [CFP]({cfp.Cfpurl}) | {(cfp.TravelExpensesCovered ? "✈️" : "")} {(cfp.AccomodationsProvided ? "🏨" : "")} {(cfp.EventFeesCovered ? "🎟️" : "")} {(string.IsNullOrEmpty(cfp.AdditionalBenefits) ? "" : cfp.AdditionalBenefits)} | {cfp.StartDate:yyyy-MM-dd} | {cfp.EndDate:yyyy-MM-dd} |");
 
 	// Write the markdown to a file
-	string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "cfp_tracker.md");
-	File.WriteAllText(filePath, sb.ToString());
+	//string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "cfp_tracker.md");
+	//File.WriteAllText(filePath, sb.ToString());
+
+	return sb.ToString();
 
 }
 
-async Task<string> UploadCFPListingAsync(IConfigurationRoot config)
+async Task<string> UploadCFPListingAsync(IConfigurationRoot config, string markdownContent)
 {
 	const string owner = "TaleLearnCode";
 	const string repoName = "CFPCompass";
@@ -94,10 +95,6 @@ async Task<string> UploadCFPListingAsync(IConfigurationRoot config)
 
 	try
 	{
-
-		// Read the local markdown file
-		string localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "cfp_tracker.md");
-		string markdownContent = await File.ReadAllTextAsync(localFilePath);
 
 		GitHubClient github = new(new ProductHeaderValue("CFPCompassUploader"))
 		{
