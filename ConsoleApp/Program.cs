@@ -1,13 +1,4 @@
-﻿using Azure.Identity;
-using ConsoleApp.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureAppConfiguration;
-using Octokit;
-using Spectre.Console;
-using System.Text;
-
-DefaultAzureCredential _azureCredentials = new();
+﻿DefaultAzureCredential _azureCredentials = new();
 string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
 
 AnsiConsole.Write(
