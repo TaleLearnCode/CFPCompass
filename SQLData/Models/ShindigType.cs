@@ -1,33 +1,33 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 /// <summary>
-/// Represents a status of a shindig.
+/// Represents a type of a shindig.
 /// </summary>
-public partial class ShindigStatus
+public partial class ShindigType
 {
 
 	/// <summary>
-	/// The identifier of the shindig status record.
+	/// The identifier of the shindig type record.
 	/// </summary>
 	public int Id { get; set; }
 
 	/// <summary>
-	/// The name of the shindig status.
+	/// The name of the shindig type.
 	/// </summary>
 	public string Name { get; set; } = null!;
 
 	/// <summary>
-	/// A description of the shindig status.
+	/// A description of the shindig type.
 	/// </summary>
 	public string? Description { get; set; }
 
 	/// <summary>
-	/// The sorting order of the shindig status.
+	/// The sorting order of the shindig type.
 	/// </summary>
 	public int SortOrder { get; set; }
 
 	/// <summary>
-	/// Flag indicating whether the shindig status is enabled.
+	/// Flag indicating whether the shindig type is enabled.
 	/// </summary>
 	public bool IsEnabled { get; set; }
 
