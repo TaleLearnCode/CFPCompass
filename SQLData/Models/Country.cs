@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 /// <summary>
 /// Lookup table representing the countries as defined by the ISO 3166-1 standard.

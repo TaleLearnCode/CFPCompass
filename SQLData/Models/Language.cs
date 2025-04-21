@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 /// <summary>
 /// Represents a spoken/written language.

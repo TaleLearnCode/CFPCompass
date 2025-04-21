@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 /// <summary>
 /// Lookup table representing the world regions as defined by the UN M49 specification.

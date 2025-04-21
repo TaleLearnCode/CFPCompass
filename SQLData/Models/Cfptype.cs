@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 public partial class CFPType
 {

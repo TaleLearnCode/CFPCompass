@@ -1,4 +1,7 @@
-﻿namespace ConsoleApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SQLData.Models;
+
+namespace SQLData;
 
 public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> options) : DbContext(options)
 {
@@ -26,7 +29,7 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 	public virtual DbSet<ShindigType> ShindigTypes { get; set; }
 
-	public virtual DbSet<TimeZone> TimeZones { get; set; }
+	public virtual DbSet<Models.TimeZone> TimeZones { get; set; }
 
 	public virtual DbSet<WorldRegion> WorldRegions { get; set; }
 
@@ -292,7 +295,7 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 			entity.Property(e => e.SortOrder).HasComment("The sorting order of the shindig type.");
 		});
 
-		modelBuilder.Entity<TimeZone>(entity =>
+		modelBuilder.Entity<Models.TimeZone>(entity =>
 		{
 			entity.HasKey(e => e.Id).HasName("pkcTimeZone");
 

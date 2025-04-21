@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Models;
+﻿namespace SQLData.Models;
 
 /// <summary>
 /// Represents the list of time zones as defined by the IANA.
