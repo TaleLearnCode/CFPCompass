@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace ConsoleApp.Models;
 
-namespace ConsoleApp.Models;
-
-public partial class Cfptype
+public partial class CFPType
 {
-    public int CfptypeId { get; set; }
 
-    public string CfptypeName { get; set; } = null!;
+	public int Id { get; set; }
 
-    public string? CfptypeDescription { get; set; }
+	public string Name { get; set; } = null!;
 
-    public int SortOrder { get; set; }
+	public string? Description { get; set; }
 
-    public bool IsEnabled { get; set; }
+	public int SortOrder { get; set; }
 
-    public virtual ICollection<Cfp> Cfps { get; set; } = new List<Cfp>();
+	public bool IsEnabled { get; set; }
+
+	public virtual ICollection<CFP> CFPs { get; set; } = [];
+
 }
