@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ConsoleApp.Models;
+﻿namespace ConsoleApp.Models;
 
 public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> options) : DbContext(options)
 {
@@ -12,9 +10,9 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 		return new CFPCompassContext(optionsBuilder.Options);
 	}
 
-	public virtual DbSet<Cfp> Cfps { get; set; }
+	public virtual DbSet<CFP> Cfps { get; set; }
 
-	public virtual DbSet<Cfptype> Cfptypes { get; set; }
+	public virtual DbSet<CFPType> Cfptypes { get; set; }
 
 	public virtual DbSet<Country> Countries { get; set; }
 
@@ -40,7 +38,7 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<Cfp>(entity =>
+		modelBuilder.Entity<CFP>(entity =>
 		{
 			entity.HasKey(e => e.ShindigPermalink).HasName("pkcCFP");
 
@@ -50,57 +48,62 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 							.HasMaxLength(200)
 							.IsUnicode(false);
 			entity.Property(e => e.AdditionalBenefits).HasMaxLength(2000);
-			entity.Property(e => e.CfptypeId).HasColumnName("CFPTypeId");
-			entity.Property(e => e.Cfpurl)
+			entity.Property(e => e.CFPTypeId).HasColumnName("CFPTypeId");
+			entity.Property(e => e.CFPUrl)
 							.HasMaxLength(200)
 							.IsUnicode(false)
 							.HasColumnName("CFPURL");
-			entity.Property(e => e.EventFeesCovered).HasDefaultValue(true);
+			entity.Property(e => e.AreEventFeesCovered).HasDefaultValue(true);
+			entity.Property(e => e.AreTravelExpensesCovered).HasColumnName("TravelExpensesCovered");
+			entity.Property(e => e.AreAccomodationsProvided).HasColumnName("AccomodationsProvided");
+			entity.Property(e => e.AreEventFeesCovered).HasColumnName("EventFeesCovered");
 
-			entity.HasOne(d => d.Cfptype).WithMany(p => p.Cfps)
-							.HasForeignKey(d => d.CfptypeId)
+			entity.HasOne(d => d.CFPType).WithMany(p => p.CFPs)
+							.HasForeignKey(d => d.CFPTypeId)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fkCFP_CFPType");
 
-			entity.HasOne(d => d.Shindig).WithOne(p => p.Cfp)
-							.HasForeignKey<Cfp>(d => d.ShindigPermalink)
+			entity.HasOne(d => d.Shindig).WithOne(p => p.CFP)
+							.HasForeignKey<CFP>(d => d.ShindigPermalink)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fkCFP_Shindig");
 		});
 
-		modelBuilder.Entity<Cfptype>(entity =>
+		modelBuilder.Entity<CFPType>(entity =>
 		{
-			entity.HasKey(e => e.CfptypeId).HasName("pkcCFPType");
+			entity.HasKey(e => e.Id).HasName("pkcCFPType");
 
 			entity.ToTable("CFPType");
 
-			entity.Property(e => e.CfptypeId)
+			entity.Property(e => e.Id)
 							.ValueGeneratedNever()
 							.HasColumnName("CFPTypeId");
-			entity.Property(e => e.CfptypeDescription)
+			entity.Property(e => e.Description)
 							.HasMaxLength(500)
 							.HasColumnName("CFPTypeDescription");
-			entity.Property(e => e.CfptypeName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.HasColumnName("CFPTypeName");
 		});
 
 		modelBuilder.Entity<Country>(entity =>
 		{
-			entity.HasKey(e => e.CountryCode).HasName("pkcCountry");
+			entity.HasKey(e => e.Code).HasName("pkcCountry");
 
 			entity.ToTable("Country", tb => tb.HasComment("Lookup table representing the countries as defined by the ISO 3166-1 standard."));
 
 			entity.HasIndex(e => e.WorldRegionCode, "idxCountry_WorldRegionCode");
 
-			entity.Property(e => e.CountryCode)
+			entity.Property(e => e.Code)
 							.HasMaxLength(2)
 							.IsUnicode(false)
 							.IsFixedLength()
+							.HasColumnName("CountryCode")
 							.HasComment("Identifier of the country using the ISO 3166-1 Alpha-2 code.");
-			entity.Property(e => e.CountryName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.IsUnicode(false)
+							.HasColumnName("CountryName")
 							.HasComment("Name of the country using the ISO 3166-1 Country Name.");
 			entity.Property(e => e.DivisionName)
 							.HasMaxLength(100)
@@ -120,7 +123,7 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 							.IsFixedLength()
 							.HasComment("Identifier of the world region where the country is located.");
 
-			entity.HasOne(d => d.WorldRegionCodeNavigation).WithMany(p => p.Countries)
+			entity.HasOne(d => d.WorldRegion).WithMany(p => p.Countries)
 							.HasForeignKey(d => d.WorldRegionCode)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fkCountry_WorldRegion");
@@ -128,7 +131,7 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<CountryDivision>(entity =>
 		{
-			entity.HasKey(e => new { e.CountryCode, e.CountryDivisionCode }).HasName("pkcCountryDivision");
+			entity.HasKey(e => new { e.CountryCode, e.Code }).HasName("pkcCountryDivision");
 
 			entity.ToTable("CountryDivision", tb => tb.HasComment("Lookup table representing the world regions as defined by the ISO 3166-2 standard."));
 
@@ -136,22 +139,24 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 							.HasMaxLength(2)
 							.IsUnicode(false)
 							.IsFixedLength();
-			entity.Property(e => e.CountryDivisionCode)
+			entity.Property(e => e.Code)
 							.HasMaxLength(3)
 							.IsUnicode(false)
 							.IsFixedLength()
+							.HasColumnName("CountryDivisionCode")
 							.HasComment("Identifier of the country division using the ISO 3166-2 Alpha-2 code.");
 			entity.Property(e => e.CategoryName)
 							.HasMaxLength(100)
 							.IsUnicode(false)
 							.HasComment("The category name of the country division.");
-			entity.Property(e => e.CountryDivisionName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.IsUnicode(false)
+							.HasColumnName("CountryDivisionName")
 							.HasComment("Name of the country using the ISO 3166-2 Subdivision Name.");
 			entity.Property(e => e.IsEnabled).HasComment("Flag indicating whether the country division record is enabled.");
 
-			entity.HasOne(d => d.CountryCodeNavigation).WithMany(p => p.CountryDivisions)
+			entity.HasOne(d => d.Country).WithMany(p => p.CountryDivisions)
 							.HasForeignKey(d => d.CountryCode)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fkCountryDivision_Country");
@@ -159,18 +164,20 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<Language>(entity =>
 		{
-			entity.HasKey(e => e.LanguageCode).HasName("pkcLangauge");
+			entity.HasKey(e => e.Code).HasName("pkcLangauge");
 
 			entity.ToTable("Language", tb => tb.HasComment("Represents a spoken/written language."));
 
-			entity.Property(e => e.LanguageCode)
+			entity.Property(e => e.Code)
 							.HasMaxLength(2)
 							.IsUnicode(false)
 							.IsFixedLength()
+							.HasColumnName("LanguageCode")
 							.HasComment("Identifier of the language.");
 			entity.Property(e => e.IsEnabled).HasComment("Flag indicating whether the language is enabled.");
-			entity.Property(e => e.LanguageName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
+							.HasColumnName("LanguageName")
 							.HasComment("Name of the language.");
 			entity.Property(e => e.NativeName)
 							.HasMaxLength(100)
@@ -196,20 +203,27 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 							.IsUnicode(false)
 							.IsFixedLength();
 			entity.Property(e => e.IsEnabled).HasDefaultValue(true);
-			entity.Property(e => e.ShindigDescription).HasMaxLength(2000);
-			entity.Property(e => e.ShindigImageUrl)
+			entity.Property(e => e.Description)
+			.HasMaxLength(2000)
+			.HasColumnName("ShindigDescription");
+			entity.Property(e => e.ImageUrl)
 							.HasMaxLength(200)
 							.IsUnicode(false);
-			entity.Property(e => e.ShindigName).HasMaxLength(200);
-			entity.Property(e => e.ShindigUrl)
+			entity.Property(e => e.Name)
+			.HasMaxLength(200)
+			.HasColumnName("ShindigName");
+			entity.Property(e => e.Url)
 							.HasMaxLength(200)
-							.IsUnicode(false);
+							.IsUnicode(false)
+							.HasColumnName("ShindigUrl");
+			entity.Property(e => e.ImageUrl)
+				.HasColumnName("ShindigImageUrl");
 			entity.Property(e => e.TimeZoneId)
 							.HasMaxLength(100)
 							.IsUnicode(false);
 			entity.Property(e => e.Venue).HasMaxLength(200);
 
-			entity.HasOne(d => d.CountryCodeNavigation).WithMany(p => p.Shindigs)
+			entity.HasOne(d => d.Country).WithMany(p => p.Shindigs)
 							.HasForeignKey(d => d.CountryCode)
 							.OnDelete(DeleteBehavior.ClientSetNull)
 							.HasConstraintName("fkShindig_Country");
@@ -236,18 +250,21 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<ShindigStatus>(entity =>
 		{
-			entity.HasKey(e => e.ShindigStatusId).HasName("pkcShindigStatus");
+			entity.HasKey(e => e.Id).HasName("pkcShindigStatus");
 
 			entity.ToTable("ShindigStatus", tb => tb.HasComment("Represents a status of a shindig."));
 
-			entity.Property(e => e.ShindigStatusId)
+			entity.Property(e => e.Id)
 							.ValueGeneratedNever()
+							.HasColumnName("ShindigStatusId")
 							.HasComment("The identifier of the shindig status record.");
+			entity.Property(e => e.Name).HasColumnName("ShindigStatusName");
 			entity.Property(e => e.IsEnabled).HasComment("Flag indicating whether the shindig status is enabled.");
-			entity.Property(e => e.ShindigStatusDescription)
+			entity.Property(e => e.Description)
 							.HasMaxLength(500)
+							.HasColumnName("ShindigStatusDescription")
 							.HasComment("A description of the shindig status.");
-			entity.Property(e => e.ShindigStatusName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.HasComment("The name of the shindig status.");
 			entity.Property(e => e.SortOrder).HasComment("The sorting order of the shindig status.");
@@ -255,18 +272,21 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<ShindigType>(entity =>
 		{
-			entity.HasKey(e => e.ShindigTypeId).HasName("pkcShindigType");
+			entity.HasKey(e => e.Id).HasName("pkcShindigType");
 
 			entity.ToTable("ShindigType", tb => tb.HasComment("Represents a type of a shindig."));
 
-			entity.Property(e => e.ShindigTypeId)
+			entity.Property(e => e.Id)
 							.ValueGeneratedNever()
+							.HasColumnName("ShindigTypeId")
 							.HasComment("The identifier of the shindig type record.");
+			entity.Property(e => e.Name).HasColumnName("ShindigTypeName");
 			entity.Property(e => e.IsEnabled).HasComment("Flag indicating whether the shindig type is enabled.");
-			entity.Property(e => e.ShindigTypeDescription)
+			entity.Property(e => e.Description)
 							.HasMaxLength(500)
+							.HasColumnName("ShindigTypeDescription")
 							.HasComment("A description of the shindig type.");
-			entity.Property(e => e.ShindigTypeName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.HasComment("The name of the shindig type.");
 			entity.Property(e => e.SortOrder).HasComment("The sorting order of the shindig type.");
@@ -274,13 +294,14 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<TimeZone>(entity =>
 		{
-			entity.HasKey(e => e.TimeZoneId).HasName("pkcTimeZone");
+			entity.HasKey(e => e.Id).HasName("pkcTimeZone");
 
 			entity.ToTable("TimeZone", tb => tb.HasComment("Represents the list of time zones as defined by the IANA."));
 
-			entity.Property(e => e.TimeZoneId)
+			entity.Property(e => e.Id)
 							.HasMaxLength(100)
 							.IsUnicode(false)
+							.HasColumnName("TimeZoneId")
 							.HasComment("The identifier of the time zone as defined by the IANA.");
 			entity.Property(e => e.DaylightOffset)
 							.HasMaxLength(6)
@@ -306,16 +327,17 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 
 		modelBuilder.Entity<WorldRegion>(entity =>
 		{
-			entity.HasKey(e => e.WorldRegionCode).HasName("pkcWorldRegion");
+			entity.HasKey(e => e.Code).HasName("pkcWorldRegion");
 
 			entity.ToTable("WorldRegion", tb => tb.HasComment("Lookup table representing the world regions as defined by the UN M49 specification."));
 
 			entity.HasIndex(e => e.ParentId, "idxWorldRegion_ParentId");
 
-			entity.Property(e => e.WorldRegionCode)
+			entity.Property(e => e.Code)
 							.HasMaxLength(3)
 							.IsUnicode(false)
 							.IsFixedLength()
+							.HasColumnName("WorldRegionCode")
 							.HasComment("Identifier of the world region.");
 			entity.Property(e => e.IsEnabled).HasComment("Flag indicating whether the world region is enabled.");
 			entity.Property(e => e.ParentId)
@@ -323,12 +345,13 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 							.IsUnicode(false)
 							.IsFixedLength()
 							.HasComment("Identifier of the world region parent (for subregions).");
-			entity.Property(e => e.WorldRegionName)
+			entity.Property(e => e.Name)
 							.HasMaxLength(100)
 							.IsUnicode(false)
+							.HasColumnName("WorldRegionName")
 							.HasComment("Name of the world region.");
 
-			entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+			entity.HasOne(d => d.Parent).WithMany(p => p.Children)
 							.HasForeignKey(d => d.ParentId)
 							.HasConstraintName("fkWorldRegion_WorldRegion");
 		});
@@ -337,4 +360,5 @@ public partial class CFPCompassContext(DbContextOptions<CFPCompassContext> optio
 	}
 
 	partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 }

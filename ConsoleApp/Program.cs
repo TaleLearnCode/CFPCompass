@@ -51,10 +51,10 @@ string GenerateCFPListing(IConfigurationRoot config)
 	}
 
 	using CFPCompassContext context = CFPCompassContext.CreateDbContext(connectionString);
-	List<Cfp> callsForSpeakers = [.. context.Cfps
+	List<CFP> callsForSpeakers = [.. context.Cfps
 		.AsNoTracking()
 		.Include(c => c.Shindig)
-		.ThenInclude(x => x.CountryCodeNavigation)];
+		.ThenInclude(x => x.Country)];
 
 	StringBuilder sb = new();
 	sb.AppendLine("# Call for Speakers Tracker");
@@ -63,8 +63,8 @@ string GenerateCFPListing(IConfigurationRoot config)
 	sb.AppendLine();
 	sb.AppendLine("| Conference | Country | City | Conference Start | Conference End | CFP | Benefits | CFP Start | Deadline |");
 	sb.AppendLine("| ---------- | ------- | ---- | ---------------- | -------------- | --- | -------- | --------- | -------- |");
-	foreach (Cfp cfp in callsForSpeakers)
-		sb.AppendLine($"| [{cfp.Shindig.ShindigName}]({cfp.Shindig.ShindigUrl}) | {(cfp.Shindig.CountryCodeNavigation.CountryName == "United States of America" ? "United States" : cfp.Shindig.CountryCodeNavigation.CountryName)} | {(cfp.Shindig.CountryCodeNavigation.CountryName == "United States of America" ? $"{cfp.Shindig.City}, {cfp.Shindig.CountryDivisionCode}" : cfp.Shindig.City)} | {cfp.Shindig.StartDate:yyyy-MM-dd} | {cfp.Shindig.EndDate:yyyy-MM-dd} | [CFP]({cfp.Cfpurl}) | {(cfp.TravelExpensesCovered ? "✈️" : "")} {(cfp.AccomodationsProvided ? "🏨" : "")} {(cfp.EventFeesCovered ? "🎟️" : "")} {(string.IsNullOrEmpty(cfp.AdditionalBenefits) ? "" : cfp.AdditionalBenefits)} | {cfp.StartDate:yyyy-MM-dd} | {cfp.EndDate:yyyy-MM-dd} |");
+	foreach (CFP cfp in callsForSpeakers)
+		sb.AppendLine($"| [{cfp.Shindig.Name}]({cfp.Shindig.Url}) | {(cfp.Shindig.Country.Name == "United States of America" ? "United States" : cfp.Shindig.Country.Name)} | {(cfp.Shindig.Country.Name == "United States of America" ? $"{cfp.Shindig.City}, {cfp.Shindig.CountryDivisionCode}" : cfp.Shindig.City)} | {cfp.Shindig.StartDate:yyyy-MM-dd} | {cfp.Shindig.EndDate:yyyy-MM-dd} | [CFP]({cfp.CFPUrl}) | {(cfp.AreTravelExpensesCovered ? "✈️" : "")} {(cfp.AreAccomodationsProvided ? "🏨" : "")} {(cfp.AreEventFeesCovered ? "🎟️" : "")} {(string.IsNullOrEmpty(cfp.AdditionalBenefits) ? "" : cfp.AdditionalBenefits)} | {cfp.StartDate:yyyy-MM-dd} | {cfp.EndDate:yyyy-MM-dd} |");
 
 	// Write the markdown to a file
 	//string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "cfp_tracker.md");
