@@ -6,7 +6,12 @@ USING (VALUES ('apicon-new-york-2025',                           3, '2025-03-22'
               ('ncd-porto-2025',                                 1, '2025-01-22', '2025-05-18', 1, 1, 1, 'https://sessionize.com/ndc-porto-2025/'),
               ('apicon-berlin-2025',                             3, '2025-04-01', '2025-05-19', 1, 1, 1, 'https://callforpapers.sandsmedia.com/'),
               ('serverless-architecture-conference-berlin-2025', 3, '2025-04-01', '2025-05-19', 1, 1, 1, 'https://callforpapers.sandsmedia.com/'),
-              ('build-stuff-2025',                               1, '2025-03-01', '2025-06-30', 1, 1, 1, 'https://sessionize.com/build-stuff-2025'))
+              ('build-stuff-2025',                               1, '2025-03-01', '2025-06-30', 1, 1, 1, 'https://sessionize.com/build-stuff-2025'),
+              ('atlanta-cloud-conference-2025',                  1, '2025-02-01', '2025-03-23', 1, 1, 1, 'https://sessionize.com/atlanta-cloud-conference-2025/'),
+              ('stir-trek-2025',                                 1, '2025-01-14', '2025-01-28', 1, 1, 1, 'https://sessionize.com/stir-trek-2025/'),
+              ('devup-2025',                                     1, '2025-01-13', '2025-02-28', 1, 1, 1, 'https://sessionize.com/dev-up-2025/'),
+              ('beer-city-code-2025',                            1, '2025-01-05', '2025-03-01', 1, 1, 1, 'https://sessionize.com/beer-city-code-2025/'),
+              ('kcdc-2025',                                      1, '2025-01-07', '2025-02-21', 1, 1, 1, 'https://sessionize.com/kcdc-2025/'))
 AS SOURCE (ShindigPermalink,
            CFPTypeId,
            StartDate,
