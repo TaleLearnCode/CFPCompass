@@ -2,7 +2,7 @@
 USING (VALUES ('apicon-new-york-2025',                           3, '2025-03-22', '2025-04-22', 1, 1, 1, 'https://apiconference.net/new-york/call-for-papers-ny/'),
               ('devopscon-new-york-2025',                        3, '2025-03-22', '2025-04-22', 1, 1, 1, 'https://devopscon.io/call-for-papers-new-york/'),
               ('techoroma-netherlands-2025',                     1, '2025-02-17', '2025-04-25', 1, 1, 1, 'https://sessionize.com/techorama-2025-netherlands/'),
-              ('prairie-dev-con-winnipeg-2025',                  2, '2025-04-03', '2025-05-03', 1, 1, 1, 'https://www.papercall.io/prdcwinnipeg2025'),
+              ('prairie-dev-con-winnipeg-2025',                  2, '2025-04-03', '2025-05-09', 1, 1, 1, 'https://www.papercall.io/prdcwinnipeg2025'),
               ('ncd-porto-2025',                                 1, '2025-01-22', '2025-05-18', 1, 1, 1, 'https://sessionize.com/ndc-porto-2025/'),
               ('apicon-berlin-2025',                             3, '2025-04-01', '2025-05-19', 1, 1, 1, 'https://callforpapers.sandsmedia.com/'),
               ('serverless-architecture-conference-berlin-2025', 3, '2025-04-01', '2025-05-19', 1, 1, 1, 'https://callforpapers.sandsmedia.com/'),
