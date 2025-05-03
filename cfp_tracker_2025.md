@@ -11,4 +11,9 @@ This archive includes all CFPs (both open and closed) for events happening in 20
 | [NDC Porto 2025](https://ndcporto.com/) | Portugal | Porto | 2025-10-20 | 2025-10-24 | [CFP](https://sessionize.com/ndc-porto-2025/) | ✈️ 🏨 🎟️  | 2025-01-22 | 2025-05-18 |
 | [APIcon New York 2025](https://apiconference.net/new-york/) | United States | New York, NY  | 2025-09-29 | 2025-10-02 | [CFP](https://apiconference.net/new-york/call-for-papers-ny/) | ✈️ 🏨 🎟️  | 2025-03-22 | 2025-04-22 |
 | [DevOps Con New York 2025](https://devopscon.io/new-york/) | United States | New York, NY  | 2025-09-29 | 2025-10-02 | [CFP](https://devopscon.io/call-for-papers-new-york/) | ✈️ 🏨 🎟️  | 2025-03-22 | 2025-04-22 |
-| [Prairie Dev Con 2025 Winnipeg](https://www.prairiedevcon.com/) | Canada | Winnipeg | 2025-09-22 | 2025-09-23 | [CFP](https://www.papercall.io/prdcwinnipeg2025) | ✈️ 🏨 🎟️  | 2025-04-03 | 2025-05-03 |
+| [Prairie Dev Con 2025 Winnipeg](https://www.prairiedevcon.com/) | Canada | Winnipeg | 2025-09-22 | 2025-09-23 | [CFP](https://www.papercall.io/prdcwinnipeg2025) | ✈️ 🏨 🎟️  | 2025-04-03 | 2025-05-09 |
+| [KCDC 2025](https://kcdc.info/) | United States | Kansas City, MO  | 2025-08-13 | 2025-08-15 | [CFP](https://sessionize.com/kcdc-2025/) | ✈️ 🏨 🎟️  | 2025-01-07 | 2025-02-21 |
+| [Beer City Code 2025](https://beercitycode.com/) | United States | Grand Rapids, MI  | 2025-08-08 | 2025-08-09 | [CFP](https://sessionize.com/beer-city-code-2025/) | ✈️ 🏨 🎟️  | 2025-01-05 | 2025-03-01 |
+| [dev up 2025](https://www.devupconf.org/) | United States | St. Charles, MO  | 2025-08-06 | 2025-08-08 | [CFP](https://sessionize.com/dev-up-2025/) | ✈️ 🏨 🎟️  | 2025-01-13 | 2025-02-28 |
+| [Stir Trek 2025](https://stirtrek.com/) | United States | Columbus, OH  | 2025-05-02 | 2025-05-02 | [CFP](https://sessionize.com/stir-trek-2025/) | ✈️ 🏨 🎟️  | 2025-01-14 | 2025-01-28 |
+| [Atlanta Cloud Conference 2025](https://atlcloudconf.com/) | United States | Atlanta, GA  | 2025-04-26 | 2025-04-26 | [CFP](https://sessionize.com/atlanta-cloud-conference-2025/) | ✈️ 🏨 🎟️  | 2025-02-01 | 2025-03-23 |
