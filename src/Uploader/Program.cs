@@ -25,13 +25,12 @@
 
 					ctx.Status("Retrieving CFP data");
 					using CFPCompassContext context = CFPCompassContext.CreateDbContext(connectionString);
-					List<CFP> allCfps = context.Cfps
+					List<CFP> allCfps = [.. context.Cfps
 								.AsNoTracking()
 								.Include(c => c.Shindig)
-								.ThenInclude(x => x.Country)
-								.ToList();
+								.ThenInclude(x => x.Country)];
 
-					// Gather distinct years based on the event (Shindig) start date
+					// Gather distinct years based on the Shindig start date
 					IOrderedEnumerable<int> years = allCfps
 								.Select(c => c.EndDate.Year)
 								.Distinct()
@@ -40,10 +39,10 @@
 					ctx.Status("Generating Current CFP Listing");
 					string openCfpMarkdown = GenerateOpenCFPListing(allCfps, years);
 
-					List<string> uploadResponses = new()
-							{
-										await UploadFileToGitHub("cfp_tracker.md", openCfpMarkdown, config)
-							};
+					List<string> uploadResponses =
+					[
+						await UploadFileToGitHub("cfp_tracker.md", openCfpMarkdown, config)
+					];
 
 					foreach (int year in years)
 					{
@@ -109,7 +108,7 @@ string GenerateOpenCFPListing(List<CFP> allCfps, IEnumerable<int> years)
 	try
 	{
 		DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-		List<CFP> openCfps = allCfps.Where(c => c.EndDate >= today).OrderBy(c => c.EndDate).ToList();
+		List<CFP> openCfps = [.. allCfps.Where(c => c.EndDate >= today).OrderBy(c => c.EndDate)];
 
 		StringBuilder sb = new();
 		sb.AppendLine("# Open Call for Speakers");
@@ -166,10 +165,9 @@ string GenerateYearlyCFPListing(List<CFP> allCfps, int year)
 	try
 	{
 		// Filter CFPs that belong to the specified year (based on the event's start date)
-		List<CFP> yearCfps = allCfps
+		List<CFP> yearCfps = [.. allCfps
 				.Where(c => c.Shindig.StartDate.Year == year)
-				.OrderByDescending(c => c.Shindig.StartDate)
-				.ToList();
+				.OrderBy(c => c.Shindig.StartDate)];
 
 		StringBuilder sb = new();
 		sb.AppendLine($"# CFP Tracker for {year}");
