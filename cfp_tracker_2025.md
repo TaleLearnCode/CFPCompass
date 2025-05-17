@@ -17,6 +17,7 @@ This archive includes all CFPs (both open and closed) for events happening in 20
 | [APIcon Berlin 2025](https://apiconference.net/berlin/) | Germany | Berlin | 2025-10-21 | 2025-10-23 | [CFP](https://callforpapers.sandsmedia.com/) | ✈️ 🏨 🎟️  | 2025-04-01 | 2025-05-19 |
 | [Serverless Architecture Conference Berlin 2025](https://apiconference.net/berlin/) | Germany | Berlin | 2025-10-21 | 2025-10-23 | [CFP](https://callforpapers.sandsmedia.com/) | ✈️ 🏨 🎟️  | 2025-04-01 | 2025-05-19 |
 | [Techorama 2025 Netherlands](https://www.techorama.nl/) | Netherlands | Urecht | 2025-10-27 | 2025-10-29 | [CFP](https://sessionize.com/techorama-2025-netherlands/) | ✈️ 🏨 🎟️  | 2025-02-17 | 2025-04-25 |
+| [Update Conference Prague 2025](https://www.updateconference.net/) | Czech Republic | Prague | 2025-11-13 | 2025-11-14 | [CFP](https://sessionize.com/update-conference-prague-2025/) | ✈️ 🏨 🎟️  | 2025-05-06 | 2025-05-28 |
 | [.NET Developer Conference '25](https://www.dotnet-developer-conference.de/) | Germany | Köln | 2025-11-24 | 2025-11-27 | [CFP](https://sessionize.com/dotnet-developer-conference-25) | ✈️ 🏨 🎟️  | 2025-04-15 | 2025-06-01 |
 | [Build Stuff 2025](https://buildstuff.events/) | Lithuania | Vilnius | 2025-12-03 | 2025-12-05 | [CFP](https://sessionize.com/build-stuff-2025) | ✈️ 🏨 🎟️  | 2025-03-01 | 2025-06-30 |
 | [Cloudbrew 2025](https://www.cloudbrew.be/) | Belgium | Mechelen | 2025-12-11 | 2025-12-12 | [CFP](https://sessionize.com/cloudbrew-2025) | ✈️ 🏨 🎟️  | 2025-04-22 | 2025-06-08 |
